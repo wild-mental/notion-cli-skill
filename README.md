@@ -72,33 +72,68 @@ ntn doctor   # Token valid, Default workspace 통과 확인
 
 ### 스킬 설치
 
-**프로젝트에 포함된 경우** — 이 저장소를 clone하면 아래 경로에 스킬이 함께 옵니다.
+스킬은 **개인** 또는 **프로젝트** 범위 중 하나를 골라 설치합니다. 두 범위 모두 `curl`로 `SKILL.md`만 받습니다. **이 저장소 전체를 작업 repo에 clone하지 마세요.**
 
-| 도구 | 프로젝트 경로 | 개인 경로 |
-|------|---------------|-----------|
-| Cursor | `.cursor/skills/notion-cli/` | `~/.cursor/skills/notion-cli/` |
-| Claude Code | `.claude/skills/notion-cli/` | `~/.claude/skills/notion-cli/` |
-| Codex | `.agents/skills/notion-cli/` | `~/.agents/skills/notion-cli/` |
+| | 개인 스킬 | 프로젝트 스킬 |
+|---|----------|--------------|
+| **적용 범위** | 내가 여는 모든 프로젝트 | 현재 repo에서만 |
+| **경로** | `~/…/skills/notion-cli/` | `<repo-root>/.cursor/skills/notion-cli/` 등 |
+| **Git 영향** | 작업 repo에 파일 추가 없음 | repo에 스킬 파일 commit 가능 (팀 공유) |
+| **언제 쓰나** | 혼자 모든 프로젝트에서 쓸 때 | 팀 repo에 스킬을 고정·공유할 때 |
 
-**개인 스킬로 쓰는 경우:**
+| 도구 | 개인 경로 | 프로젝트 경로 |
+|------|-----------|---------------|
+| Cursor | `~/.cursor/skills/notion-cli/` | `.cursor/skills/notion-cli/` |
+| Claude Code | `~/.claude/skills/notion-cli/` | `.claude/skills/notion-cli/` |
+| Codex | `~/.agents/skills/notion-cli/` | `.agents/skills/notion-cli/` |
+
+#### 개인 스킬 (권장 — Git repo 무변경)
 
 ```bash
 # Cursor
 mkdir -p ~/.cursor/skills/notion-cli
-cp .cursor/skills/notion-cli/SKILL.md ~/.cursor/skills/notion-cli/
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.cursor/skills/notion-cli/SKILL.md \
+  -o ~/.cursor/skills/notion-cli/SKILL.md
 
 # Claude Code
 mkdir -p ~/.claude/skills/notion-cli
-cp .claude/skills/notion-cli/SKILL.md ~/.claude/skills/notion-cli/
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.claude/skills/notion-cli/SKILL.md \
+  -o ~/.claude/skills/notion-cli/SKILL.md
 
 # Codex
 mkdir -p ~/.agents/skills/notion-cli
-cp .agents/skills/notion-cli/SKILL.md ~/.agents/skills/notion-cli/
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.agents/skills/notion-cli/SKILL.md \
+  -o ~/.agents/skills/notion-cli/SKILL.md
 ```
 
-- **Cursor**: 설치 후 **Reload Window**를 한 번 실행하세요.
-- **Claude Code**: 스킬 수정은 세션 중 live 반영됩니다. 세션 시작 후 새로 만든 top-level `.claude/skills/`는 재시작이 필요할 수 있습니다.
-- **Codex**: 스킬 변경이 반영되지 않으면 Codex를 재시작하세요.
+#### 프로젝트 스킬 (프로젝트 경로에 설치)
+
+AI 스킬 설정을 repo에 포함·공유하려는 경우에만 사용하세요.
+
+```bash
+# Cursor
+mkdir -p .cursor/skills/notion-cli
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.cursor/skills/notion-cli/SKILL.md \
+  -o .cursor/skills/notion-cli/SKILL.md
+
+# Claude Code
+mkdir -p .claude/skills/notion-cli
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.claude/skills/notion-cli/SKILL.md \
+  -o .claude/skills/notion-cli/SKILL.md
+
+# Codex
+mkdir -p .agents/skills/notion-cli
+curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.agents/skills/notion-cli/SKILL.md \
+  -o .agents/skills/notion-cli/SKILL.md
+```
+
+필요한 도구(Cursor / Claude Code / Codex)만 골라 실행하면 됩니다.
+
+#### 설치 후
+
+- **Cursor**: **Reload Window** 한 번
+- **Claude Code**: 스킬 수정은 세션 중 live 반영; 세션 시작 후 새 top-level `.claude/skills/`는 재시작 필요할 수 있음
+- **Codex**: 스킬이 안 보이면 Codex 재시작
 
 ### 사용 방법
 
@@ -217,31 +252,38 @@ Notion 페이지를 재귀 다운로드할 때 스킬이 따르는 레이아웃:
 
 ## For LLMs
 
-<!-- machine-oriented; skip prose formatting -->
+<!-- install-only; operational rules live in SKILL.md — load skill after install -->
 
 ```
 skill=notion-cli
-repo=notion-cli-skill
-license=MIT
-purpose=ntn/Notion CLI ops on pages and documents without repeated pitfalls: read-first, local markdown export, file:// images, recursive <page url> wiring
+repo=https://github.com/wild-mental/notion-cli-skill
+install.method=curl-only  # never clone this repo into user's project
 
-prereq:
-  curl -fsSL https://ntn.dev | bash
-  ntn login
-  ntn doctor  # require Token valid + Default workspace
+flow:
+  1. ask scope: "개인 스킬(~/, 모든 프로젝트) vs 프로젝트 스킬(./, 현재 repo만) 중 어디에 설치할까요?"
+  2. ask tools: "Cursor / Claude Code / Codex 중 어떤 도구에 설치할까요?" (복수 선택 가능)
+  3. run matching curl commands below; do not install both scopes unless user asks
+  4. post_install steps; then load SKILL.md — do not infer rules from README
 
-skill_paths:
-  cursor.project=.cursor/skills/notion-cli/SKILL.md
-  cursor.user=~/.cursor/skills/notion-cli/SKILL.md
-  claude.project=.claude/skills/notion-cli/SKILL.md
-  claude.user=~/.claude/skills/notion-cli/SKILL.md
-  codex.project=.agents/skills/notion-cli/SKILL.md
-  codex.user=~/.agents/skills/notion-cli/SKILL.md
+scope.user.paths:
+  cursor=~/.cursor/skills/notion-cli/SKILL.md
+  claude=~/.claude/skills/notion-cli/SKILL.md
+  codex=~/.agents/skills/notion-cli/SKILL.md
 
-install.repo=clone repo; skills ship in paths above
-install.user.cursor=mkdir -p ~/.cursor/skills/notion-cli && cp .cursor/skills/notion-cli/SKILL.md ~/.cursor/skills/notion-cli/
-install.user.claude=mkdir -p ~/.claude/skills/notion-cli && cp .claude/skills/notion-cli/SKILL.md ~/.claude/skills/notion-cli/
-install.user.codex=mkdir -p ~/.agents/skills/notion-cli && cp .agents/skills/notion-cli/SKILL.md ~/.agents/skills/notion-cli/
+scope.project.paths:
+  cursor=.cursor/skills/notion-cli/SKILL.md
+  claude=.claude/skills/notion-cli/SKILL.md
+  codex=.agents/skills/notion-cli/SKILL.md
+
+install.user.cursor=mkdir -p ~/.cursor/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.cursor/skills/notion-cli/SKILL.md -o ~/.cursor/skills/notion-cli/SKILL.md
+install.user.claude=mkdir -p ~/.claude/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.claude/skills/notion-cli/SKILL.md -o ~/.claude/skills/notion-cli/SKILL.md
+install.user.codex=mkdir -p ~/.agents/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.agents/skills/notion-cli/SKILL.md -o ~/.agents/skills/notion-cli/SKILL.md
+
+install.project.cursor=mkdir -p .cursor/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.cursor/skills/notion-cli/SKILL.md -o .cursor/skills/notion-cli/SKILL.md
+install.project.claude=mkdir -p .claude/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.claude/skills/notion-cli/SKILL.md -o .claude/skills/notion-cli/SKILL.md
+install.project.codex=mkdir -p .agents/skills/notion-cli && curl -fsSL https://raw.githubusercontent.com/wild-mental/notion-cli-skill/main/.agents/skills/notion-cli/SKILL.md -o .agents/skills/notion-cli/SKILL.md
+
+install.project.note=run from repo root; adds tracked files — confirm user chose project scope
 
 invoke.cursor=/notion-cli
 invoke.claude=/notion-cli
@@ -250,12 +292,6 @@ invoke.codex=/skills|$notion-cli
 post_install.cursor=Reload Window
 post_install.claude=live reload; restart if new top-level .claude/skills/ after session start
 post_install.codex=restart if skill not detected
-
-must_read=SKILL.md  # full rules, traps, snippets
-workflow=ntn doctor > normalize_page_id(32hex) > BFS(<page url>) > ntn pages get > localize_images(getSignedFileUrls url=source) > replace_page_links(relative.md) > verify
-rules=read-before-write; preserve source; append-over-overwrite; page_id=32hex-only; no ntn api GET block-children for download; Notion MD != GFM unless asked; macOS token=keychain service notion-cli
-traps=slug-in-page-id=>400; source-field=>use url in getSignedFileUrls; korean-filename=>urllib.parse.quote path
-verify=ntn doctor ok; no file:// left; all <page url>=>[text](relative.md); image paths exist; page count matches
 ```
 
 ---
