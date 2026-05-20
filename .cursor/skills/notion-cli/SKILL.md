@@ -1,5 +1,5 @@
 ---
-name: notion-cli-local-llm
+name: notion-cli
 description: Operates on Notion as a knowledge base using Notion CLI (ntn). Covers read-first workflows, local page export with images, recursive internal-page download, and relative link wiring. Use when using ntn, downloading Notion pages to markdown, resolving file:// images, or linking internal Notion pages locally.
 ---
 
@@ -259,7 +259,7 @@ Notion 내부 페이지 링크는 표준 `[text](url)` 이 아니다:
 
 ## 7. Cursor 스킬 발견
 
-개인 스킬 `~/.cursor/skills/` 생성 후 UI에 안 보이면 **Reload Window** 필요. 수동 호출: `/notion-cli-local-llm`.
+개인 스킬 `~/.cursor/skills/` 생성 후 UI에 안 보이면 **Reload Window** 필요. 수동 호출: `/notion-cli`.
 
 ---
 

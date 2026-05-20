@@ -1,5 +1,5 @@
 ---
-name: notion-cli-local-llm
+name: notion-cli
 description: Operates on Notion via Notion CLI (ntn) with read-first workflows, local markdown export with images, recursive internal-page download, and relative link wiring. Use when the user mentions ntn, Notion CLI, downloading Notion pages to markdown, file:// images, or internal page links. Do not use for generic Notion API work without ntn.
 ---
 
@@ -265,10 +265,10 @@ Notion 내부 페이지 링크는 표준 `[text](url)` 이 아니다:
 
 | 위치 | 경로 |
 |------|------|
-| 프로젝트 | `.agents/skills/notion-cli-local-llm/SKILL.md` |
-| 개인 | `~/.agents/skills/notion-cli-local-llm/SKILL.md` |
+| 프로젝트 | `.agents/skills/notion-cli/SKILL.md` |
+| 개인 | `~/.agents/skills/notion-cli/SKILL.md` |
 
-수동 호출: `/skills` 또는 `$notion-cli-local-llm`. 스킬 변경이 반영되지 않으면 Codex를 재시작한다.
+수동 호출: `/skills` 또는 `$notion-cli`. 스킬 변경이 반영되지 않으면 Codex를 재시작한다.
 
 ---
 
