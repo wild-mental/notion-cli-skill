@@ -1,13 +1,13 @@
 ---
 name: notion-cli
-description: Operates on Notion via Notion CLI (ntn) with read-first workflows, local markdown export with images, recursive internal-page download, and relative link wiring. Use when the user mentions ntn, Notion CLI, downloading Notion pages to markdown, file:// images, or internal page links. Do not use for generic Notion API work without ntn.
+description: Operates on Notion pages and documents via Notion CLI (ntn). Covers read-first workflows, local markdown export with images, recursive internal-page download, and relative link wiring. Use when the user mentions ntn, Notion CLI, downloading Notion pages to markdown, file:// images, or internal page links. Do not use for generic Notion API work without ntn.
 ---
 
 # Notion CLI + Local LLM Operating Rules
 
 ## 역할
 
-Notion을 지식베이스 및 작업 저장소로 사용하고,
+Notion 워크스페이스의 페이지·문서·데이터베이스를 사람이 쓰는 협업 공간으로 두고,
 로컬 LLM Agent는 이를 읽고 분석하고 갱신한다.
 
 ## 시작 시 확인
@@ -119,9 +119,9 @@ ntn pages --help                   # pages 하위 명령 확인
 
 ```
 Notion
-= 인간 중심 작업 공간
-= 지식 저장소
-= 협업 인터페이스
+= 문서·협업 워크스페이스
+= 페이지·wiki·프로젝트 기록
+= 사람 중심 작업 공간
 ```
 
 ```
@@ -429,7 +429,7 @@ python3 scripts/download_notion_page.py
 - 원본을 보존한다.
 - 변경 내용을 요약한다.
 - 불확실하면 문서를 확인한다.
-- Notion은 source of truth로 사용한다.
+- Notion 워크스페이스의 원본 페이지·문서를 source of truth로 사용한다.
 - 실행 로직과 대규모 처리는 외부 런타임에서 수행한다.
 - 최소 권한 원칙을 따른다.
 

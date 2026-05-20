@@ -3,7 +3,7 @@
 # notion-cli 
 > Skill for Cursor, Claude, Codex agents
 
-**Notion CLI(`ntn`)로 지식베이스를 다룰 때, Agent가 같은 함정을 반복하지 않도록 가르치는 Agent Skill입니다. Cursor, Claude Code, Codex 모두 지원합니다.**
+**Notion CLI(`ntn`)로 Notion 페이지·문서를 Agent가 읽고, 내려받고, 수정할 때 겪기 쉬운 시행착오를 줄여 주는 Skill입니다. Cursor, Claude Code, Codex 모두 지원합니다.**
 
 Notion 페이지를 로컬 마크다운으로 내려받고, 이미지를 풀고, 내부 링크를 연결하는 작업은 문서상으로는 단순해 보이지만 실제로는 **페이지 ID 형식, Notion 전용 마크다운, `file://` 이미지 참조, API hang** 같은 함정이 연속으로 기다립니다. 이 스킬은 그 시행착오를 **미리 문서화하고, Agent 행동 규칙으로 고정**합니다.
 
@@ -37,7 +37,7 @@ Notion (source of truth)
     ↕  GitHub / Local Runtime / External Services
 ```
 
-Notion은 협업·지식 저장소, LLM은 분석·생성 엔진, CLI는 연결 계층 — 역할을 섞지 않도록 경계를 정의합니다.
+Notion은 사람이 쓰는 문서·협업 워크스페이스, LLM은 분석·생성 엔진, CLI는 연결 계층 — 역할을 섞지 않도록 경계를 정의합니다.
 
 ---
 
@@ -199,7 +199,7 @@ Notion 페이지를 재귀 다운로드할 때 스킬이 따르는 레이아웃:
 
 ## 이런 분께 추천합니다
 
-- Notion을 **팀 지식베이스**로 쓰고, Cursor, Claude Code, 또는 Codex Agent로 읽기·분석·갱신하려는 분
+- Notion **워크스페이스**에서 문서·wiki·프로젝트 페이지를 관리하며, Cursor, Claude Code, 또는 Codex Agent로 읽기·분석·갱신하려는 분
 - `ntn pages get` 결과가 "깨진 마크다운"처럼 보여 **GFM 변환을 억지로 시도**하다 시간을 쓴 분
 - 이미지·내부 링크 때문에 **로컬 export를 포기**했거나, 매번 처음부터 디버깅하는 분
 - Agent에게 Notion 작업을 맡기되 **원본 훼손·잘못된 API 경로**를 피하고 싶은 분
@@ -223,7 +223,7 @@ Notion 페이지를 재귀 다운로드할 때 스킬이 따르는 레이아웃:
 skill=notion-cli
 repo=notion-cli-skill
 license=MIT
-purpose=ntn/Notion CLI ops without repeated pitfalls: read-first, local markdown export, file:// images, recursive <page url> wiring
+purpose=ntn/Notion CLI ops on pages and documents without repeated pitfalls: read-first, local markdown export, file:// images, recursive <page url> wiring
 
 prereq:
   curl -fsSL https://ntn.dev | bash
