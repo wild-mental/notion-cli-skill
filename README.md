@@ -3,6 +3,8 @@
 # notion-cli 
 > Skill for Cursor, Claude, Codex agents
 
+**Language / 언어:** [한국어](README.md) · [English](README.en.md)
+
 **Notion CLI(`ntn`)로 Notion 페이지·문서를 Agent가 읽고, 내려받고, 수정할 때 겪기 쉬운 시행착오를 줄여 주는 Skill입니다. Cursor, Claude Code, Codex 모두 지원합니다.**
 
 Notion 페이지를 로컬 마크다운으로 내려받고, 이미지를 풀고, 내부 링크를 연결하는 작업은 문서상으로는 단순해 보이지만 실제로는 **페이지 ID 형식, Notion 전용 마크다운, `file://` 이미지 참조, API hang** 같은 함정이 연속으로 기다립니다. 이 스킬은 그 시행착오를 **미리 문서화하고, Agent 행동 규칙으로 고정**합니다.
